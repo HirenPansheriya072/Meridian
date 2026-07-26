@@ -15,6 +15,17 @@ const bookLimiter = rateLimit({ windowMs: 60 * 1000, max: 8 });
 
 router.get('/health', (req, res) => res.json({ ok: true, uptime: process.uptime() }));
 
+router.get('/debug-env', (req, res) => {
+  const uri = process.env.MONGODB_URI || '';
+  const maskedUri = uri.replace(/:([^@]+)@/, ':****@');
+  res.json({
+    hasUri: !!uri,
+    maskedUri,
+    nodeEnv: process.env.NODE_ENV,
+    clientOrigin: process.env.CLIENT_ORIGIN,
+  });
+});
+
 /* auth */
 router.post('/auth/register', authLimiter, validate({ body: s.registerSchema }), auth.register);
 router.post('/auth/login', authLimiter, validate({ body: s.loginSchema }), auth.login);
