@@ -23,6 +23,7 @@ router.get('/debug-env', (req, res) => {
     maskedUri,
     nodeEnv: process.env.NODE_ENV,
     clientOrigin: process.env.CLIENT_ORIGIN,
+    dbStatus: require('mongoose').connection.readyState,
   });
 });
 
