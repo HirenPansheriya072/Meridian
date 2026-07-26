@@ -30,13 +30,20 @@ const { connectDb } = require('./config/db');
 
 // Ensure database connection is active on every serverless request
 app.use(async (req, res, next) => {
-  if (mongoose.connection.readyState !== 1) {
+  const state = mongoose.connection.readyState;
+  if (state === 0) {
     try {
       await connectDb();
     } catch (err) {
       console.error('Database connection error inside middleware:', err);
       return next(err);
     }
+  } else if (state === 2) {
+    // Wait for the active connection attempt to finish so Vercel doesn't freeze it
+    await new Promise((resolve) => {
+      mongoose.connection.once('open', () => resolve());
+      mongoose.connection.once('error', () => resolve());
+    });
   }
   next();
 });
