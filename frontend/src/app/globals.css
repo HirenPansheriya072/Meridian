@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-chalk text-ink font-sans;
+  }
+  /* Times sit in columns constantly in this app. They are always tabular. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+  *:focus-visible {
+    @apply outline-none ring-2 ring-dusk ring-offset-2 ring-offset-chalk;
+  }
+  ::selection {
+    @apply bg-dawn/25;
+  }
+}
+
+@layer components {
+  .spec {
+    @apply font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint;
+  }
+  .card {
+    @apply rounded-lg border border-rule bg-surface shadow-card;
+  }
+  .hair {
+    @apply border-b border-rule;
+  }
+}
+
+.scroll-thin::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: #cecdc5;
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
