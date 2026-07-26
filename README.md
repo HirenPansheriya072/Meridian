@@ -46,6 +46,19 @@ npm run seed              # Longitude Studio: 3 hosts in 3 timezones
 npm run dev
 ```
 
+### Email Configuration (Optional)
+By default, emails (confirmations, reschedules, cancellations) are printed to the console. To send real emails via SMTP (e.g. Brevo):
+1. Register for a free [Brevo account](https://www.brevo.com/).
+2. Generate an SMTP Key under **SMTP & API**.
+3. In `backend/.env`, configure:
+   ```env
+   SMTP_HOST=smtp-relay.brevo.com
+   SMTP_PORT=587
+   SMTP_USER=your_brevo_login_email
+   SMTP_PASS=your_brevo_smtp_api_key
+   MAIL_FROM="Meridian <no-reply@yourdomain.com>"
+   ```
+
 ```bash
 cd frontend
 cp .env.example .env.local
@@ -54,6 +67,13 @@ npm run dev               # http://localhost:3000
 ```
 
 **Demo login:** `demo@meridian.scheduling` / `demo1234`
+
+### Production Deployment Notes
+
+When deploying frontend and backend to separate domains (e.g., Vercel and Render), configure these environment variables on your backend for secure cross-origin session cookies:
+* `CLIENT_ORIGIN=https://your-frontend-vercel-app.vercel.app` (no trailing slash)
+* `COOKIE_SAMESITE=none`
+* `COOKIE_SECURE=true` (must be true for HTTPS production)
 
 Booking pages worth opening (try switching the timezone picker while you're there):
 
